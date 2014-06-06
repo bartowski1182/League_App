@@ -6,6 +6,7 @@ import android.app.ActionBar;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.Context;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.Gravity;
@@ -17,10 +18,11 @@ import android.view.ViewGroup;
 import android.support.v4.widget.DrawerLayout;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 public class MainActivity extends Activity
-        implements NavigationDrawerFragment.NavigationDrawerCallbacks {
+        implements NavigationDrawerFragment.NavigationDrawerCallbacks, ChampionsFragment.OnChampionsFragmentInteractionListener, ItemsFragment.OnItemsFragmentInteractionListener  {
 
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
@@ -50,9 +52,19 @@ public class MainActivity extends Activity
     @Override
     public void onNavigationDrawerItemSelected(int position) {
         // update the main content by replacing fragments
+        Fragment fragment = null;
+        Bundle args = new Bundle();
+
+        switch(position) {
+            case 0:
+                fragment = new ChampionsFragment();
+                break;
+            case 1:
+                fragment = new ItemsFragment();
+        }
         FragmentManager fragmentManager = getFragmentManager();
         fragmentManager.beginTransaction()
-                .replace(R.id.container, PlaceholderFragment.newInstance(position + 1))
+                .replace(R.id.container, fragment)
                 .commit();
     }
 
@@ -63,12 +75,6 @@ public class MainActivity extends Activity
                 break;
             case 2:
                 mTitle = getString(R.string.title_section2);
-                break;
-            case 3:
-                mTitle = getString(R.string.title_section3);
-                break;
-            case 4:
-                mTitle = getString(R.string.title_section4);
                 break;
         }
     }
@@ -104,6 +110,16 @@ public class MainActivity extends Activity
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public void onChampionsFragmentInteraction(String id){
+        Toast toast = Toast.makeText(this, id, Toast.LENGTH_SHORT);
+        toast.show();
+    }
+
+    public void onItemsFragmentInteraction(String id){
+        Toast toast = Toast.makeText(this, id, Toast.LENGTH_SHORT);
+        toast.show();
     }
 
     /**
